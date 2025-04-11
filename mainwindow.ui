@@ -18,13 +18,13 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>10</y>
+      <y>20</y>
       <width>1231</width>
       <height>651</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -533,8 +533,8 @@
      <widget class="QCheckBox" name="filtreLavageCheckBox">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>50</y>
+        <x>30</x>
+        <y>70</y>
         <width>77</width>
         <height>22</height>
        </rect>
@@ -546,6 +546,133 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QCheckBox" name="filtrePleinCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>100</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Plein</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_8">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>161</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_9">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>161</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filtres :</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreDeltaDistanceCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>130</y>
+        <width>101</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delta Distance</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreImmatriculationMissionCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>160</y>
+        <width>111</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Immatriculation</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreHorodatageDepartCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>190</y>
+        <width>131</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Horodatage Départ</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreHorodatageArriveeCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>220</y>
+        <width>131</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Horodatage Arrivée</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>lineEdit_8</zorder>
+     <zorder>deltaDistanceLineEdit</zorder>
+     <zorder>pleinCheckBox</zorder>
+     <zorder>immatriculationMissionsLineEdit</zorder>
+     <zorder>horodatageDepartEdit</zorder>
+     <zorder>lavageCheckBox</zorder>
+     <zorder>missionsTableView</zorder>
+     <zorder>horodatageArriveeEdit</zorder>
+     <zorder>editMissionButton</zorder>
+     <zorder>addMissionButton</zorder>
+     <zorder>deleteMissionButton</zorder>
+     <zorder>filtreLavageCheckBox</zorder>
+     <zorder>filtrePleinCheckBox</zorder>
+     <zorder>lineEdit_9</zorder>
+     <zorder>filtreDeltaDistanceCheckBox</zorder>
+     <zorder>filtreImmatriculationMissionCheckBox</zorder>
+     <zorder>filtreHorodatageDepartCheckBox</zorder>
+     <zorder>filtreHorodatageArriveeCheckBox</zorder>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -649,7 +776,7 @@
       <property name="geometry">
        <rect>
         <x>970</x>
-        <y>60</y>
+        <y>110</y>
         <width>77</width>
         <height>22</height>
        </rect>
@@ -665,7 +792,7 @@
       <property name="geometry">
        <rect>
         <x>970</x>
-        <y>90</y>
+        <y>140</y>
         <width>77</width>
         <height>22</height>
        </rect>
@@ -681,7 +808,7 @@
       <property name="geometry">
        <rect>
         <x>970</x>
-        <y>120</y>
+        <y>170</y>
         <width>77</width>
         <height>22</height>
        </rect>
@@ -693,6 +820,47 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>60</y>
+        <width>113</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_5">
+      <property name="geometry">
+       <rect>
+        <x>960</x>
+        <y>60</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filtres :</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>lineEdit_4</zorder>
+     <zorder>emailLineEdit</zorder>
+     <zorder>prenomLineEdit</zorder>
+     <zorder>conducteursTableView</zorder>
+     <zorder>editConducteurButton</zorder>
+     <zorder>deleteConducteurButton</zorder>
+     <zorder>nomLineEdit</zorder>
+     <zorder>addConducteurButton</zorder>
+     <zorder>filtrePrenomConducteurCheckBox</zorder>
+     <zorder>filtreNomConducteurCheckBox</zorder>
+     <zorder>filtreEmailConducteurCheckBox</zorder>
+     <zorder>lineEdit_5</zorder>
     </widget>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -782,8 +950,8 @@
      <widget class="QCheckBox" name="filtreNomClientCheckBox">
       <property name="geometry">
        <rect>
-        <x>980</x>
-        <y>90</y>
+        <x>990</x>
+        <y>140</y>
         <width>77</width>
         <height>22</height>
        </rect>
@@ -798,8 +966,8 @@
      <widget class="QCheckBox" name="filtreAdresseCheckBox">
       <property name="geometry">
        <rect>
-        <x>980</x>
-        <y>120</y>
+        <x>990</x>
+        <y>170</y>
         <width>121</width>
         <height>22</height>
        </rect>
@@ -811,6 +979,45 @@
        <bool>true</bool>
       </property>
      </widget>
+     <widget class="QLineEdit" name="lineEdit_6">
+      <property name="geometry">
+       <rect>
+        <x>980</x>
+        <y>90</y>
+        <width>131</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_7">
+      <property name="geometry">
+       <rect>
+        <x>980</x>
+        <y>90</y>
+        <width>131</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filtres :</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>lineEdit_6</zorder>
+     <zorder>nomClientLineEdit</zorder>
+     <zorder>editClientButton</zorder>
+     <zorder>deleteClientButton</zorder>
+     <zorder>adresseChantierLineEdit</zorder>
+     <zorder>clientsTableView</zorder>
+     <zorder>addClientButton</zorder>
+     <zorder>filtreNomClientCheckBox</zorder>
+     <zorder>filtreAdresseCheckBox</zorder>
+     <zorder>lineEdit_7</zorder>
     </widget>
    </widget>
   </widget>

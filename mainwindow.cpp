@@ -38,14 +38,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->filtreEmailConducteurCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadConducteurs);
     connect(ui->filtreNomClientCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadClients);
     connect(ui->filtreAdresseCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadClients);
+    connect(ui->filtreImmatriculationMissionCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreDeltaDistanceCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreHorodatageDepartCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreHorodatageArriveeCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreLavageCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtrePleinCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
 
     // Connecter les onglets aux fonctions de chargement
-    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index) {
-        switch (index) {
-        case 0: loadVehicules(); break;
-        case 1: loadConducteurs(); break;
-        case 2: loadClients(); break;
-        case 3: loadMissions(); break;
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index)
+    {
+        switch (index)
+        {
+            case 0: loadVehicules(); break;
+            case 1: loadConducteurs(); break;
+            case 2: loadClients(); break;
+            case 3: loadMissions(); break;
         }
     });
 }
@@ -142,19 +150,28 @@ void MainWindow::loadClients()
 void MainWindow::loadMissions()
 {
     QStandardItemModel *model = new QStandardItemModel(this);
-    model->setHorizontalHeaderLabels({"Immatriculation", "Delta Distance (Km)", "Horodatage Depart", "Horodatage Arrivée", "Lavage", "Plein"});
 
     QLocale locale(QLocale::French, QLocale::France);
+
+    QStringList headers;
+    if (ui->filtreImmatriculationMissionCheckBox->isChecked()) headers << "Immatriculation";
+    if (ui->filtreDeltaDistanceCheckBox->isChecked()) headers << "Delta Distance";
+    if (ui->filtreHorodatageDepartCheckBox->isChecked()) headers << "Horodatage Départ";
+    if (ui->filtreHorodatageArriveeCheckBox->isChecked()) headers << "Horodatage Arrivée";
+    if (ui->filtreLavageCheckBox->isChecked()) headers << "Lavage";
+    if (ui->filtrePleinCheckBox->isChecked()) headers << "Plein";
+
+    model->setHorizontalHeaderLabels(headers);
 
     for (const auto& mission : missions)
     {
         QList<QStandardItem*> row;
-        row.append(new QStandardItem(mission.immatriculation));
-        row.append(new QStandardItem(mission.deltaDistance));
-        row.append(new QStandardItem(locale.toString(mission.horodatageDepart, "dd MMMM yyyy hh:mm")));
-        row.append(new QStandardItem(locale.toString(mission.horodatageArrivee, "dd MMMM yyyy hh:mm")));
-        row.append(new QStandardItem(mission.lavage ? "Fait" : "Non fait"));
-        row.append(new QStandardItem(mission.plein ? "Fait" : "Non fait"));
+        if (ui->filtreImmatriculationMissionCheckBox->isChecked()) row.append(new QStandardItem(mission.immatriculation));
+        if (ui->filtreDeltaDistanceCheckBox->isChecked()) row.append(new QStandardItem(mission.deltaDistance));
+        if (ui->filtreHorodatageDepartCheckBox->isChecked()) row.append(new QStandardItem(locale.toString(mission.horodatageDepart, "dd MMMM yyyy hh:mm")));
+        if (ui->filtreHorodatageArriveeCheckBox->isChecked()) row.append(new QStandardItem(locale.toString(mission.horodatageArrivee, "dd MMMM yyyy hh:mm")));
+        if (ui->filtreLavageCheckBox->isChecked()) row.append(new QStandardItem(mission.lavage ? "Fait" : "Non fait"));
+        if (ui->filtrePleinCheckBox->isChecked()) row.append(new QStandardItem(mission.plein ? "Fait" : "Non fait"));
 
         model->appendRow(row);
     }
