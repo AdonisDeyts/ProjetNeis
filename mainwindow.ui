@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1307</width>
+    <height>721</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>10</y>
+      <width>1231</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Tableau Véhicule</string>
+     </attribute>
+     <widget class="QCheckBox" name="filtreKilometrageCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>320</y>
+        <width>91</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>kilometrage</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="longitudeLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>350</y>
+        <width>131</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Longitude</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editVehiculeButton">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>520</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier Véhicule</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="latitudeLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>320</y>
+        <width>131</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Latitude</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteVehiculeButton">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>520</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer Véhicule</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="immatriculationLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>220</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::InputMethodHint::ImhNone</set>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>Immatriculation</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="couleurComboBox">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>250</y>
+        <width>131</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="placeholderText">
+       <string>Sélection couleur</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="disponibilitecheckBox">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>320</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Diponible</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="vehiculesTableView">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>140</y>
+        <width>571</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Plain</enum>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="descriptionTextEdit">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>140</y>
+        <width>131</width>
+        <height>70</height>
+       </rect>
+      </property>
+      <property name="overwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="placeholderText">
+       <string>Description Véhicule</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreImmatriculationCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>200</y>
+        <width>111</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Immatriculation</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreDescriptionCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>240</y>
+        <width>91</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>description</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>280</y>
+        <width>91</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Kilométrage :</string>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreLongitudeCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>400</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>longitude</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="kilometrageSpinBox">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>280</y>
+        <width>62</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="decimals">
+       <number>3</number>
+      </property>
+      <property name="maximum">
+       <double>1000.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreLatitudeCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>360</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>latitude</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreDisponibleCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>440</y>
+        <width>91</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>disponibilité</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addVehiculeButton">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>520</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter Véhicule</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreCouleurCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>920</x>
+        <y>280</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>couleur</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>140</y>
+        <width>121</width>
+        <height>341</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>910</x>
+        <y>133</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Filtres :</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <zorder>lineEdit_2</zorder>
+     <zorder>filtreKilometrageCheckBox</zorder>
+     <zorder>longitudeLineEdit</zorder>
+     <zorder>editVehiculeButton</zorder>
+     <zorder>latitudeLineEdit</zorder>
+     <zorder>deleteVehiculeButton</zorder>
+     <zorder>immatriculationLineEdit</zorder>
+     <zorder>couleurComboBox</zorder>
+     <zorder>disponibilitecheckBox</zorder>
+     <zorder>vehiculesTableView</zorder>
+     <zorder>descriptionTextEdit</zorder>
+     <zorder>filtreImmatriculationCheckBox</zorder>
+     <zorder>filtreDescriptionCheckBox</zorder>
+     <zorder>lineEdit</zorder>
+     <zorder>filtreLongitudeCheckBox</zorder>
+     <zorder>kilometrageSpinBox</zorder>
+     <zorder>filtreLatitudeCheckBox</zorder>
+     <zorder>filtreDisponibleCheckBox</zorder>
+     <zorder>addVehiculeButton</zorder>
+     <zorder>filtreCouleurCheckBox</zorder>
+     <zorder>lineEdit_3</zorder>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Tableau Mission</string>
+     </attribute>
+     <widget class="QLineEdit" name="deltaDistanceLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>130</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Delta Distance</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="pleinCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>90</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Plein</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="immatriculationMissionsLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>170</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Immatriculation</string>
+      </property>
+     </widget>
+     <widget class="QDateTimeEdit" name="horodatageDepartEdit">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>220</y>
+        <width>194</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="lavageCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>50</y>
+        <width>101</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Lavage</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="missionsTableView">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>40</y>
+        <width>811</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Plain</enum>
+      </property>
+     </widget>
+     <widget class="QDateTimeEdit" name="horodatageArriveeEdit">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>260</y>
+        <width>194</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="calendarPopup">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editMissionButton">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>540</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier Mission</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addMissionButton">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>540</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter Mission</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteMissionButton">
+      <property name="geometry">
+       <rect>
+        <x>770</x>
+        <y>540</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer Mission</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreLavageCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>50</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Lavage</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Tableau Conducteur</string>
+     </attribute>
+     <widget class="QLineEdit" name="emailLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>140</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Email</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="prenomLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>60</y>
+        <width>121</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Prénom Conducteur</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="conducteursTableView">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>60</y>
+        <width>701</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Plain</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editConducteurButton">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>530</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier Conducteur</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteConducteurButton">
+      <property name="geometry">
+       <rect>
+        <x>710</x>
+        <y>530</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer Conducteur</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="nomLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>100</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Nom Conducteur</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addConducteurButton">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>530</y>
+        <width>191</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter Conducteur</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtrePrenomConducteurCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>970</x>
+        <y>60</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Prénom</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreNomConducteurCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>970</x>
+        <y>90</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreEmailConducteurCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>970</x>
+        <y>120</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Email</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Tableau Client</string>
+     </attribute>
+     <widget class="QLineEdit" name="nomClientLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>100</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Nom</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="editClientButton">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>540</y>
+        <width>201</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Modifier Client</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteClientButton">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>540</y>
+        <width>201</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Supprimer Client</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="adresseChantierLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>130</y>
+        <width>113</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Adresse Chantier</string>
+      </property>
+     </widget>
+     <widget class="QTableView" name="clientsTableView">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>90</y>
+        <width>701</width>
+        <height>441</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Plain</enum>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addClientButton">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>540</y>
+        <width>201</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Ajouter Client</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreNomClientCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>980</x>
+        <y>90</y>
+        <width>77</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="filtreAdresseCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>980</x>
+        <y>120</y>
+        <width>121</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Adresse Chantier</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1307</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
