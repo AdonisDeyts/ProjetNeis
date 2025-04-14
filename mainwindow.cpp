@@ -3,27 +3,30 @@
 #include <QMessageBox>
 #include <QStandardItemModel>
 #include <QLocale>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug() << "Available drivers:" << QSqlDatabase::drivers();
+
+    // Établir la connexion à la base de données
+    if (!createConnection())
+    {
+        QMessageBox::critical(this, "Erreur", "Impossible de se connecter à la base de données.");
+        return;
+    }
 
     // Charger les données initiales
     loadVehicules();
     loadConducteurs();
     loadClients();
     loadMissions();
-
-    // Ajouter des options à la QComboBox
-    ui->couleurComboBox->addItem("Rouge");
-    ui->couleurComboBox->addItem("Bleu");
-    ui->couleurComboBox->addItem("Vert");
-    ui->couleurComboBox->addItem("Jaune");
-    ui->couleurComboBox->addItem("Noir");
-    ui->couleurComboBox->addItem("Blanc");
-    ui->couleurComboBox->addItem("Gris");
 
     // Connecter les QCheckBox aux fonctions de chargement
     connect(ui->filtreImmatriculationCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadVehicules);
@@ -44,22 +47,42 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->filtreHorodatageArriveeCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
     connect(ui->filtreLavageCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
     connect(ui->filtrePleinCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreRemboursementLavageCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
+    connect(ui->filtreRemboursementPleinCheckBox, &QCheckBox::stateChanged, this, &MainWindow::loadMissions);
 
     // Connecter les onglets aux fonctions de chargement
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, [this](int index)
-    {
-        switch (index)
-        {
-            case 0: loadVehicules(); break;
-            case 1: loadConducteurs(); break;
-            case 2: loadClients(); break;
-            case 3: loadMissions(); break;
-        }
-    });
+            {
+                switch (index)
+                {
+                case 0: loadVehicules(); break;
+                case 1: loadConducteurs(); break;
+                case 2: loadClients(); break;
+                case 3: loadMissions(); break;
+                }
+            });
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool MainWindow::createConnection()
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("192.168.17.13");
+    db.setDatabaseName("projet_neis");
+    db.setUserName("serv_admin");
+    db.setPassword("serv_admin");
+
+    if (!db.open())
+    {
+        qDebug() << "Cannot connect to database:" << db.lastError();
+        return false;
+    }
+    qDebug() << "Connected to database successfully.";
+    return true;
 }
 
 void MainWindow::loadVehicules()
@@ -78,8 +101,18 @@ void MainWindow::loadVehicules()
 
     model->setHorizontalHeaderLabels(headers);
 
-    for (const auto& vehicule : vehicules)
-    {
+    QSqlQuery query("SELECT * FROM vehicules");
+    while (query.next()) {
+        Vehicule vehicule;
+        vehicule.immatriculation = query.value("immatriculation").toString();
+        vehicule.description = query.value("description").toString();
+        vehicule.couleur = query.value("couleur").toString();
+        vehicule.kilometrage = query.value("kilometrage").toDouble();
+        vehicule.latitude = query.value("latitude").toString();
+        vehicule.longitude = query.value("longitude").toString();
+        vehicule.disponible = query.value("disponible").toBool();
+        vehicules.append(vehicule);
+
         QList<QStandardItem*> row;
         if (ui->filtreImmatriculationCheckBox->isChecked()) row.append(new QStandardItem(vehicule.immatriculation));
         if (ui->filtreDescriptionCheckBox->isChecked()) row.append(new QStandardItem(vehicule.description));
@@ -97,7 +130,6 @@ void MainWindow::loadVehicules()
     ui->vehiculesTableView->resizeRowsToContents();
 }
 
-
 void MainWindow::loadConducteurs()
 {
     QStandardItemModel *model = new QStandardItemModel(this);
@@ -109,8 +141,14 @@ void MainWindow::loadConducteurs()
 
     model->setHorizontalHeaderLabels(headers);
 
-    for (const auto& conducteur : conducteurs)
-    {
+    QSqlQuery query("SELECT * FROM conducteurs");
+    while (query.next()) {
+        Conducteur conducteur;
+        conducteur.prenom = query.value("prenom").toString();
+        conducteur.nom = query.value("nom").toString();
+        conducteur.email = query.value("email").toString();
+        conducteurs.append(conducteur);
+
         QList<QStandardItem*> row;
         if (ui->filtrePrenomConducteurCheckBox->isChecked()) row.append(new QStandardItem(conducteur.prenom));
         if (ui->filtreNomConducteurCheckBox->isChecked()) row.append(new QStandardItem(conducteur.nom));
@@ -134,11 +172,16 @@ void MainWindow::loadClients()
 
     model->setHorizontalHeaderLabels(headers);
 
-    for (const auto& client : clients)
-    {
+    QSqlQuery query("SELECT * FROM clients");
+    while (query.next()) {
+        Client client;
+        client.nom = query.value("nom").toString();
+        client.adresseChantier = query.value("adresseChantier").toString();
+        clients.append(client);
+
         QList<QStandardItem*> row;
         if (ui->filtreNomClientCheckBox->isChecked()) row.append(new QStandardItem(client.nom));
-        if (ui->filtreAdresseCheckBox->isChecked())row.append(new QStandardItem(client.adresseChantier));
+        if (ui->filtreAdresseCheckBox->isChecked()) row.append(new QStandardItem(client.adresseChantier));
         model->appendRow(row);
     }
 
@@ -160,11 +203,24 @@ void MainWindow::loadMissions()
     if (ui->filtreHorodatageArriveeCheckBox->isChecked()) headers << "Horodatage Arrivée";
     if (ui->filtreLavageCheckBox->isChecked()) headers << "Lavage";
     if (ui->filtrePleinCheckBox->isChecked()) headers << "Plein";
+    if (ui->filtreRemboursementLavageCheckBox->isChecked()) headers << "Remboursement Lavage";
+    if (ui->filtreRemboursementPleinCheckBox->isChecked()) headers << "Remboursement Plein";
 
     model->setHorizontalHeaderLabels(headers);
 
-    for (const auto& mission : missions)
-    {
+    QSqlQuery query("SELECT * FROM missions");
+    while (query.next()) {
+        Mission mission;
+        mission.immatriculation = query.value("immatriculation").toString();
+        mission.deltaDistance = query.value("deltaDistance").toString();
+        mission.horodatageDepart = query.value("horodatageDepart").toDateTime();
+        mission.horodatageArrivee = query.value("horodatageArrivee").toDateTime();
+        mission.lavage = query.value("lavage").toBool();
+        mission.plein = query.value("plein").toBool();
+        mission.remboursementLavage = query.value("remboursementLavage").toBool();
+        mission.remboursementPlein = query.value("remboursementPlein").toBool();
+        missions.append(mission);
+
         QList<QStandardItem*> row;
         if (ui->filtreImmatriculationMissionCheckBox->isChecked()) row.append(new QStandardItem(mission.immatriculation));
         if (ui->filtreDeltaDistanceCheckBox->isChecked()) row.append(new QStandardItem(mission.deltaDistance));
@@ -172,6 +228,8 @@ void MainWindow::loadMissions()
         if (ui->filtreHorodatageArriveeCheckBox->isChecked()) row.append(new QStandardItem(locale.toString(mission.horodatageArrivee, "dd MMMM yyyy hh:mm")));
         if (ui->filtreLavageCheckBox->isChecked()) row.append(new QStandardItem(mission.lavage ? "Fait" : "Non fait"));
         if (ui->filtrePleinCheckBox->isChecked()) row.append(new QStandardItem(mission.plein ? "Fait" : "Non fait"));
+        if (ui->filtreRemboursementLavageCheckBox->isChecked()) row.append(new QStandardItem(mission.remboursementLavage ? "Fait" : "Non fait"));
+        if (ui->filtreRemboursementPleinCheckBox->isChecked()) row.append(new QStandardItem(mission.remboursementPlein ? "Fait" : "Non fait"));
 
         model->appendRow(row);
     }
@@ -179,214 +237,6 @@ void MainWindow::loadMissions()
     ui->missionsTableView->setModel(model);
     ui->missionsTableView->resizeColumnsToContents();
     ui->missionsTableView->resizeRowsToContents();
-}
-
-
-void MainWindow::on_addVehiculeButton_clicked()
-{
-    Vehicule vehicule;
-    vehicule.immatriculation = ui->immatriculationLineEdit->text();
-    vehicule.description = ui->descriptionTextEdit->toPlainText();
-    vehicule.couleur = ui->couleurComboBox->currentText();
-    vehicule.kilometrage = ui->kilometrageSpinBox->value();
-    vehicule.latitude = ui->latitudeLineEdit->text();
-    vehicule.longitude = ui->longitudeLineEdit->text();
-    vehicule.disponible = ui->disponibilitecheckBox->isChecked();
-
-    vehicules.append(vehicule);
-    loadVehicules();
-}
-
-void MainWindow::on_addConducteurButton_clicked()
-{
-    Conducteur conducteur;
-    conducteur.prenom = ui->prenomLineEdit->text();
-    conducteur.nom = ui->nomLineEdit->text();
-    conducteur.email = ui->emailLineEdit->text();
-
-    conducteurs.append(conducteur);
-    loadConducteurs();
-}
-
-void MainWindow::on_addClientButton_clicked()
-{
-    Client client;
-    client.nom = ui->nomClientLineEdit->text();
-    client.adresseChantier = ui->adresseChantierLineEdit->text();
-
-    clients.append(client);
-    loadClients();
-}
-
-void MainWindow::on_addMissionButton_clicked()
-{
-    Mission mission;
-    mission.immatriculation = ui->immatriculationMissionsLineEdit->text();
-    mission.deltaDistance = ui->deltaDistanceLineEdit->text();
-    mission.horodatageDepart = ui->horodatageDepartEdit->dateTime();
-    mission.horodatageArrivee = ui->horodatageArriveeEdit->dateTime();
-    mission.lavage = ui->lavageCheckBox->isChecked();
-    mission.plein = ui->pleinCheckBox->isChecked();
-
-    missions.append(mission);
-    loadMissions();
-}
-
-void MainWindow::on_deleteVehiculeButton_clicked()
-{
-    QItemSelectionModel *select = ui->vehiculesTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            // Supprimer le véhicule de la liste
-            int row = selectedRows.first().row();
-            vehicules.removeAt(row);
-            loadVehicules();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un véhicule à supprimer.");
-    }
-}
-
-void MainWindow::on_deleteConducteurButton_clicked()
-{
-    QItemSelectionModel *select = ui->conducteursTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            // Supprimer le conducteur de la liste
-            int row = selectedRows.first().row();
-            conducteurs.removeAt(row);
-            loadConducteurs();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un conducteur à supprimer.");
-    }
-}
-
-void MainWindow::on_deleteClientButton_clicked()
-{
-    QItemSelectionModel *select = ui->clientsTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            // Supprimer le client de la liste
-            int row = selectedRows.first().row();
-            clients.removeAt(row);
-            loadClients();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un client à supprimer.");
-    }
-}
-
-void MainWindow::on_deleteMissionButton_clicked()
-{
-    QItemSelectionModel *select = ui->missionsTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            int row = selectedRows.first().row();
-            missions.removeAt(row);
-            loadMissions();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner une mission à supprimer.");
-    }
-}
-
-void MainWindow::on_editVehiculeButton_clicked()
-{
-    QItemSelectionModel *select = ui->vehiculesTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            int row = selectedRows.first().row();
-            Vehicule &vehicule = vehicules[row];
-
-            // Mettre à jour le véhicule avec les nouvelles valeurs
-            vehicule.immatriculation = ui->immatriculationLineEdit->text();
-            vehicule.description = ui->descriptionTextEdit->toPlainText();
-            vehicule.couleur = ui->couleurComboBox->currentText();
-            vehicule.kilometrage = ui->kilometrageSpinBox->value();
-            vehicule.latitude = ui->latitudeLineEdit->text();
-            vehicule.longitude = ui->longitudeLineEdit->text();
-            vehicule.disponible = ui->disponibilitecheckBox->isChecked();
-
-            loadVehicules();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un véhicule à modifier.");
-    }
-}
-
-void MainWindow::on_editConducteurButton_clicked()
-{
-    QItemSelectionModel *select = ui->conducteursTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            int row = selectedRows.first().row();
-            Conducteur &conducteur = conducteurs[row];
-
-            // Mettre à jour le conducteur avec les nouvelles valeurs
-            conducteur.prenom = ui->prenomLineEdit->text();
-            conducteur.nom = ui->nomLineEdit->text();
-            conducteur.email = ui->emailLineEdit->text();
-
-            loadConducteurs();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un conducteur à modifier.");
-    }
-}
-
-void MainWindow::on_editClientButton_clicked()
-{
-    QItemSelectionModel *select = ui->clientsTableView->selectionModel();
-    if (select->hasSelection())
-    {
-        QModelIndexList selectedRows = select->selectedRows();
-        if (!selectedRows.isEmpty())
-        {
-            int row = selectedRows.first().row();
-            Client &client = clients[row];
-
-            // Mettre à jour le client avec les nouvelles valeurs
-            client.nom = ui->nomClientLineEdit->text();
-            client.adresseChantier = ui->adresseChantierLineEdit->text();
-
-            loadClients();
-        }
-    }
-    else
-    {
-        QMessageBox::warning(this, "Avertissement", "Veuillez sélectionner un client à modifier");
-    }
 }
 
 void MainWindow::on_editMissionButton_clicked()
@@ -399,12 +249,16 @@ void MainWindow::on_editMissionButton_clicked()
         {
             int row = selectedRows.first().row();
             Mission &mission = missions[row];
-            mission.immatriculation = ui->immatriculationMissionsLineEdit->text();
-            mission.deltaDistance = ui->deltaDistanceLineEdit->text();
-            mission.horodatageDepart = ui->horodatageDepartEdit->dateTime();
-            mission.horodatageArrivee = ui->horodatageArriveeEdit->dateTime();
-            mission.lavage = ui->lavageCheckBox->isChecked();
-            mission.plein = ui->pleinCheckBox->isChecked();
+            mission.remboursementLavage = ui->remboursementLavageCheckBox->isChecked();
+            mission.remboursementPlein = ui->remboursementPleinCheckBox->isChecked();
+
+            // Mettre à jour la base de données
+            QSqlQuery query;
+            query.prepare("UPDATE missions SET remboursementLavage = :remboursementLavage, remboursementPlein = :remboursementPlein WHERE immatriculation = :immatriculation");
+            query.bindValue(":remboursementLavage", mission.remboursementLavage);
+            query.bindValue(":remboursementPlein", mission.remboursementPlein);
+            query.bindValue(":immatriculation", mission.immatriculation);
+            query.exec();
 
             loadMissions();
         }

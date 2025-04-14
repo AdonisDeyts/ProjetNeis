@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QDateTimeEdit>
+#include <QtSql/QSqlDatabase>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +42,8 @@ struct Mission
     QDateTime horodatageArrivee;
     bool lavage;
     bool plein;
+    bool remboursementPlein;
+    bool remboursementLavage;
 };
 
 class MainWindow : public QMainWindow
@@ -56,20 +59,6 @@ private slots:
     void loadConducteurs();
     void loadClients();
     void loadMissions();
-
-    void on_addVehiculeButton_clicked();
-    void on_addConducteurButton_clicked();
-    void on_addClientButton_clicked();
-    void on_addMissionButton_clicked();
-
-    void on_deleteVehiculeButton_clicked();
-    void on_deleteConducteurButton_clicked();
-    void on_deleteClientButton_clicked();
-    void on_deleteMissionButton_clicked();
-
-    void on_editVehiculeButton_clicked();
-    void on_editConducteurButton_clicked();
-    void on_editClientButton_clicked();
     void on_editMissionButton_clicked();
 
 private:
@@ -78,6 +67,7 @@ private:
     QList<Conducteur> conducteurs;
     QList<Client> clients;
     QList<Mission> missions;
+    bool createConnection(); // Méthode pour établir la connexion à la base de données
 };
 
 #endif // MAINWINDOW_H
